@@ -1,0 +1,1306 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Juin Xian Loh</title>
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='6' fill='%232d6a4f'/><text x='50%25' y='54%25' dominant-baseline='middle' text-anchor='middle' font-family='Georgia,serif' font-style='italic' font-size='16' fill='white'>JX</text></svg>">
+  <link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Jost:wght@300;400;500&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:          #fafafa;
+      --surface:     #ffffff;
+      --border:      #e6e2df;
+      --border-soft: #f1ede7;
+      --accent:      #2d6a4f;
+      --accent-dim:  rgba(45,106,79,0.09);
+      --text:        #18180f;
+      --muted:       #67655e;
+      --soft:        #9c9890;
+      --serif:       'Libre Baskerville', Georgia, serif;
+      --sans:        'Jost', system-ui, sans-serif;
+      --nav-h:       64px;
+    }
+
+    html { scroll-behavior: smooth; }
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--sans);
+      font-weight: 400;
+      font-size: 16px;
+      line-height: 1.78;
+      overflow-x: hidden;
+    }
+
+    /* ─── NAV ─── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 300;
+      height: var(--nav-h);
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 0 4rem;
+      transition: background 0.38s, border-color 0.38s;
+      border-bottom: 1px solid transparent;
+      text-align: center;
+    }
+    nav.stuck {
+      background: rgba(246,244,240,0.96);
+      border-color: var(--border);
+      backdrop-filter: blur(12px);
+    }
+    .nav-logo {
+      font-family: var(--serif); font-style: italic; font-size: 1.3rem;
+      color: var(--text); text-decoration: none;
+    }
+    .nav-links { display: flex; gap: 2.2rem; list-style: none; }
+    .nav-links a {
+      font-size: 0.72rem; font-weight: 400; letter-spacing: 0.09em;
+      text-transform: uppercase; color: var(--muted); text-decoration: none;
+      position: relative; transition: color 0.2s;
+    }
+    .nav-links a::after { display: none; }
+    .nav-links a:hover, .nav-links a.active { color: var(--accent); font-weight: 500; letter-spacing: 0.06em; }
+
+    /* ─── PAGE-SECTIONS ─── */
+    /* Every section is at least the full viewport height */
+    .page {
+      min-height: unset;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: calc(var(--nav-h) + 0.8rem) 4rem 1.25rem;
+      border-bottom: 1px solid var(--border);
+    }
+
+    /* inner width constraint */
+    .page-inner {
+      max-width: 1040px;
+      margin: 0 auto;
+      width: 100%;
+    }
+
+    /* ─── SECTION HEADER ─── */
+    .sec-hd {
+      display: flex; align-items: baseline; gap: 1.1rem;
+      padding-bottom: 1.2rem; margin-bottom: 1.2rem;
+      border-bottom: 1px solid var(--border);
+    }
+    .sec-n { font-size: 0.65rem; letter-spacing: 0.15em; color: var(--accent); text-transform: uppercase; }
+    .sec-t { font-family: var(--serif); font-size: 1.75rem; font-weight: 400; }
+    .sec-icon { margin-left: auto; font-size: 1.1rem; opacity: 0.4; }
+
+    /* ─── HERO (its own page) ─── */
+    #hero {
+      min-height: 100vh;
+      display: flex; flex-direction: column; justify-content: center;
+      padding: 0 4rem;
+      border-bottom: 1px solid var(--border);
+      position: relative;
+    }
+    .hero-inner { max-width: 1040px; margin: 0 auto; width: 100%; align-items: center; display: flex; flex-direction: column; }
+
+    .h-eyebrow {
+      font-size: 0.71rem; font-weight: 400; letter-spacing: 0.2em;
+      text-transform: uppercase; color: var(--accent); margin-bottom: 1.6rem;
+      opacity: 0; animation: fadeUp 0.7s 0.2s ease forwards;
+    }
+    .h-name {
+      font-family: var(--serif);
+      font-size: clamp(3rem, 7.5vw, 6.4rem);
+      font-weight: 400; line-height: 1.07; letter-spacing: -0.025em;
+      margin-bottom: 1.8rem;
+      opacity: 0; animation: fadeUp 0.8s 0.4s ease forwards;
+    }
+    .h-name em { font-style: italic; color: var(--accent); }
+    .h-sub {
+      max-width: 520px; font-size: 1rem; color: var(--muted);
+      line-height: 1.9; margin-bottom: 2.5rem;
+      text-align: center;
+      opacity: 0; animation: fadeUp 0.8s 0.6s ease forwards;
+    }
+    .h-pills {
+      display: flex; flex-wrap: wrap; gap: 0.55rem;
+      opacity: 0; animation: fadeUp 0.8s 0.8s ease forwards;
+    }
+    .pill {
+      font-size: 0.73rem; padding: 0.3rem 0.85rem;
+      border: 1px solid var(--border); color: var(--muted); border-radius: 2px;
+    }
+    .pill.hi { border-color: var(--accent); color: var(--accent); background: var(--accent-dim); }
+
+    /* ─── SKILLS TICKER ─── */
+    .ticker-wrap {
+      position: absolute;
+      bottom: 0;
+      left: 0; right: 0;
+      overflow: hidden;
+      border-top: 1px solid var(--border-soft);
+      border-bottom: 1px solid var(--border-soft);
+      padding: 0.65rem 0;
+      mask-image: linear-gradient(to right, transparent, black 8%, black 92%, transparent);
+      -webkit-mask-image: linear-gradient(to right, transparent, black 8%, black 92%, transparent);
+    }
+    .ticker-track {
+      display: flex;
+      width: max-content;
+      animation: ticker 28s linear infinite;
+    }
+    .ticker-track:hover { animation-play-state: paused; }
+    .ticker-item {
+      display: flex; align-items: center; gap: 1.8rem;
+      padding: 0 1.8rem;
+      white-space: nowrap;
+    }
+    .ticker-item span {
+      font-size: 0.72rem; font-weight: 400; letter-spacing: 0.1em;
+      text-transform: uppercase; color: var(--muted);
+      transition: color 0.2s;
+    }
+    .ticker-item span:hover { color: var(--accent); }
+    .ticker-dot {
+      width: 3px; height: 3px; border-radius: 50%;
+      background: var(--accent); opacity: 0.5; flex-shrink: 0;
+    }
+    @keyframes ticker {
+      0%   { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
+    }
+
+    /* ─── ABOUT ─── */
+    .about-layout {
+      display: grid; grid-template-columns: 1fr 1.4fr; gap: 2.5rem; align-items: start;
+    }
+
+    .sub-hd {
+      font-size: 0.67rem; font-weight: 500; letter-spacing: 0.14em; text-transform: uppercase;
+      color: var(--accent); margin: 2.4rem 0 1.1rem;
+      padding-bottom: 0.55rem; border-bottom: 1px solid var(--border-soft);
+    }
+    .sub-hd:first-child { margin-top: 0; }
+
+    .bio p { font-size: 0.98rem; color: var(--muted); line-height: 1.94; margin-bottom: 1.5rem; }
+    .bio p:last-child { margin-bottom: 0; }
+    .bio strong { color: var(--text); font-weight: 500; }
+
+    .slider {
+      width: 100%;
+      max-width: 400px;
+      height: 420px;
+      overflow: hidden;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      background: var(--surface);
+      box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+    }
+
+      .slides {
+        display: flex;
+        transition: transform 0.6s ease-in-out;
+      }
+
+      .slides img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+
+    /* timeline */
+    .tl { position: relative; padding-left: 2.4rem; }
+    .tl::before {
+      content:''; position:absolute; left:16px; top:0.5rem; bottom:0.5rem;
+      width:1px; background: linear-gradient(to bottom, var(--accent), var(--border));
+    }
+    .tl-item { position:relative; padding-bottom:2rem; padding-left:1.5rem; }
+    .tl-item:last-child { padding-bottom:0; }
+    .tl-dot {
+      position:absolute; left:-1.55rem; top:0.42rem;
+      width:8px; height:8px; border-radius:50%;
+      background:var(--accent); border:2px solid var(--bg); box-shadow:0 0 0 1px var(--accent);
+      flex-shrink: 0;
+    }
+    .tl-dot.logo {
+      left:-1.9rem; top:0.25rem;
+      width:38px; height:38px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      box-shadow: 0 0 0 2px var(--bg);
+      overflow: hidden;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .tl-dot.logo img {
+      width: 100%; height: 100%;
+      object-fit: contain;
+      border-radius: 50%;
+      padding: 3px;
+    }
+    .tl-year { font-size:0.64rem; letter-spacing:0.13em; text-transform:uppercase; color:var(--accent); margin-bottom:0.2rem; }
+    .tl-title { font-family:var(--serif); font-size:1rem; font-weight:400; margin-bottom:0.2rem; }
+    .tl-place { font-size:0.8rem; color:var(--soft); font-style:italic; margin-bottom:0.4rem; }
+    .tl-desc { font-size:0.86rem; color:var(--muted); line-height:1.72; }
+
+
+
+    /* ─── Publications ─── */
+    .proj-list { display:flex; flex-direction:column; gap:0; max-height: 520px; overflow-y: auto; scrollbar-width: thin; scrollbar-color: var(--border) transparent; }
+    .proj-list::-webkit-scrollbar { width: 4px; }
+    .proj-list::-webkit-scrollbar-track { background: transparent; }
+    .proj-list::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
+    .proj-list::-webkit-scrollbar-thumb:hover { background: var(--accent); }
+    .proj-item {
+      display:grid; grid-template-columns:3rem 1fr;
+      gap:1.6rem; align-items:start;
+      padding:1.8rem 0; border-bottom:1px solid var(--border-soft);
+      text-decoration:none; color:inherit;
+      transition:background 0.2s;
+    }
+    .proj-item:first-child { border-top:1px solid var(--border-soft); }
+    .proj-item:hover { background:var(--surface); }
+    .proj-num { font-size:0.62rem; letter-spacing:0.1em; color:var(--soft); padding-top:0.25rem; }
+    .proj-body h3 { font-family:var(--serif); font-size:1.08rem; font-weight:400; margin-bottom:0.4rem; }
+    .proj-body p { font-size:0.87rem; color:var(--muted); line-height:1.74; margin-bottom:0.85rem; }
+    .proj-chips { display:flex; flex-wrap:wrap; gap:0.4rem; }
+    .chip {
+      font-size:0.64rem; letter-spacing:0.04em; padding:0.17rem 0.56rem;
+      background:var(--accent-dim); color:var(--accent); border-radius:2px;
+    }
+
+    /* skills row */
+    .skills-row {
+      display:flex; flex-wrap:wrap; gap:0.5rem;
+      margin-top:2.2rem; padding-top:1.8rem; border-top:1px solid var(--border-soft);
+    }
+    .skills-label {
+      font-size:0.66rem; letter-spacing:0.1em; text-transform:uppercase;
+      color:var(--soft); align-self:center; margin-right:0.4rem; white-space:nowrap;
+    }
+    .skill-tag {
+      font-size:0.72rem; padding:0.28rem 0.78rem;
+      border:1px solid var(--border); color:var(--muted); border-radius:2px;
+      transition:border-color 0.2s, color 0.2s;
+    }
+    .skill-tag:hover { border-color:var(--accent); color:var(--accent); }
+
+    /* ─── LEGACIES ─── */
+    #legacies { padding-bottom: 2rem; }
+    #legacies .sec-hd { align-items: center; flex-wrap: wrap; }
+    .legacy-filters { display: flex; gap: 0.5rem; margin-left: auto; align-items: center; flex-wrap: wrap; }
+    .filter-btn {
+      font-family: var(--sans); font-size: 0.72rem; font-weight: 400;
+      letter-spacing: 0.08em; text-transform: uppercase;
+      padding: 0.45rem 1rem; border: 1px solid var(--border);
+      background: var(--surface); color: var(--muted); border-radius: 3px;
+      cursor: pointer; transition: all 0.25s ease;
+    }
+    .filter-btn:hover { border-color: var(--accent); color: var(--accent); }
+    .filter-btn.active { background: var(--accent); border-color: var(--accent); color: white; }
+    .legacy-category { margin-bottom: 0; }
+    .legacy-category.hidden { display: none; }
+    .ach-col-hd {
+      font-size: 0.8rem; font-weight: 500; letter-spacing: 0.08em;
+      text-transform: uppercase; color: var(--accent);
+      margin-bottom: 1.5rem; padding-bottom: 0.7rem;
+      border-bottom: 1px solid var(--border-soft);
+    }
+    .ach-scroll-container { position: relative; padding: 0 52px; margin-bottom: 1rem; }
+    .ach-scroll { display: flex; gap: 1.6rem; overflow-x: auto; scroll-behavior: smooth; padding-bottom: 0.5rem; scrollbar-width: none; }
+    .ach-scroll::-webkit-scrollbar { display: none; }
+    .ach-arrow {
+      position: absolute; top: 50%; transform: translateY(-50%); z-index: 10;
+      width: 40px; height: 40px; border-radius: 50%;
+      border: 1px solid var(--border); background: var(--surface); color: var(--text);
+      font-size: 1.1rem; cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      transition: all 0.2s ease; box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    }
+    .ach-arrow:hover { border-color: var(--accent); color: var(--accent); box-shadow: 0 4px 16px rgba(45,106,79,0.15); }
+    .ach-arrow.left { left: 4px; }
+    .ach-arrow.right { right: 4px; }
+    .ach-card {
+      min-width: 290px; max-width: 290px; background: var(--surface);
+      border: 1px solid var(--border); border-radius: 6px; overflow: hidden;
+      cursor: pointer; transition: all 0.3s ease; flex-shrink: 0;
+      scroll-snap-align: start;
+    }
+    .ach-card:hover { border-color: var(--accent); box-shadow: 0 4px 20px rgba(45,106,79,0.12); transform: translateY(-2px); }
+    .ach-card-img-wrap { width: 100%; height: 180px; background: var(--surface); display: flex; align-items: center; justify-content: center; overflow: hidden; border-bottom: 1px solid var(--border-soft); }
+    .ach-card-img { width: 100%; height: auto; max-height: 180px; object-fit: contain; display: block; }
+    .ach-card-content { padding: 1.2rem 1.4rem; }
+    .ach-year { font-size: 0.66rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--accent); margin-bottom: 0.4rem; }
+    .ach-title { font-family: var(--serif); font-size: 1rem; font-weight: 400; margin-bottom: 0.5rem; line-height: 1.4; }
+    .ach-preview { font-size: 0.83rem; color: var(--muted); line-height: 1.6; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+    .ach-modal {
+      position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(0,0,0,0.65); backdrop-filter: blur(6px);
+      z-index: 1000; display: none; align-items: center; justify-content: center; padding: 2rem;
+      opacity: 0; transition: opacity 0.3s ease;
+    }
+    .ach-modal.active { display: flex; }
+    .ach-modal.visible { opacity: 1; }
+    .ach-modal-content {
+      background: var(--surface); max-width: 780px; width: 100%;
+      max-height: 90vh; overflow-y: auto; border-radius: 12px;
+      box-shadow: 0 32px 80px rgba(0,0,0,0.25); position: relative;
+      transform: scale(0.94) translateY(16px);
+      transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.35s ease;
+      opacity: 0;
+    }
+    .ach-modal.visible .ach-modal-content { transform: scale(1) translateY(0); opacity: 1; }
+    .ach-modal-img { width: 100%; height: 340px; object-fit: cover; display: block; border-radius: 12px 12px 0 0; }
+    .ach-modal-body { padding: 2.2rem 2.8rem 2.5rem; }
+    .ach-modal-year { font-size: 0.7rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--accent); margin-bottom: 0.5rem; }
+    .ach-modal-title { font-family: var(--serif); font-size: 1.8rem; font-weight: 400; margin-bottom: 1rem; line-height: 1.25; }
+    .ach-modal-text { font-size: 0.95rem; color: var(--muted); line-height: 1.85; }
+    .ach-modal-preview {
+      font-size: 0.9rem; color: var(--text); font-weight: 500;
+      line-height: 1.65; margin-bottom: 1rem;
+    }
+    .ach-modal-divider {
+      height: 1px; background: var(--border-soft);
+      margin-bottom: 1rem;
+    }
+    .ach-modal-close {
+      position: absolute; top: 1rem; right: 1rem;
+      width: 36px; height: 36px; border-radius: 50%;
+      background: rgba(255,255,255,0.92); border: 1px solid var(--border);
+      display: flex; align-items: center; justify-content: center;
+      cursor: pointer; font-size: 1.2rem; color: var(--muted); transition: all 0.2s ease;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+    .ach-modal-close:hover { background: var(--accent); border-color: var(--accent); color: white; }
+
+    /* ─── CONTACT ─── */
+    #contact { background: linear-gradient(160deg, #f6f4f0 0%, #fafafa 100%); }
+    .contact-intro {
+      text-align: center;
+      max-width: 780px;
+      margin: 0 auto 3rem;
+      display: flex; flex-direction: column; align-items: center;
+    }
+    .contact-intro .contact-label {
+      font-size: 0.68rem; letter-spacing: 0.18em; text-transform: uppercase;
+      color: var(--accent); margin-bottom: 0.8rem; display: block;
+    }
+    .contact-intro h3 {
+      font-family: var(--serif); font-size: 1.9rem; font-weight: 400;
+      line-height: 1.3; margin-bottom: 1rem; color: var(--text);
+      white-space: nowrap;
+    }
+    .contact-intro p {
+      font-size: 0.95rem; color: var(--muted); line-height: 1.9; text-align: center;
+    }
+    .clinks {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1rem;
+      max-width: 780px;
+      margin: 0 auto;
+    }
+    .clink {
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      gap: 0.6rem; padding: 1.8rem 1.2rem;
+      border: 1px solid var(--border); background: var(--surface);
+      text-decoration: none; color: var(--text);
+      border-radius: 8px;
+      transition: all 0.25s ease;
+      text-align: center;
+    }
+    .clink:hover {
+      border-color: var(--accent);
+      background: var(--accent);
+      color: white;
+      transform: translateY(-3px);
+      box-shadow: 0 8px 24px rgba(45,106,79,0.18);
+    }
+    .clink-icon {
+      font-size: 1.4rem; flex-shrink: 0;
+      width: 44px; height: 44px;
+      border-radius: 50%;
+      background: var(--accent-dim);
+      display: flex; align-items: center; justify-content: center;
+      transition: background 0.25s ease;
+    }
+    .clink:hover .clink-icon { background: rgba(255,255,255,0.2); }
+    .clink-label {
+      font-size: 0.78rem; font-weight: 500; letter-spacing: 0.05em;
+      text-transform: uppercase; color: var(--text);
+      transition: color 0.25s ease;
+    }
+    .clink:hover .clink-label { color: white; }
+    .clink-handle {
+      font-size: 0.75rem; color: var(--soft);
+      transition: color 0.25s ease;
+    }
+    .clink:hover .clink-handle { color: rgba(255,255,255,0.75); }
+    .clink-badge { display: none; }
+
+    /* ─── PAGE LOAD SPLASH ─── */
+    #splash {
+      position: fixed; inset: 0; z-index: 9999;
+      background: #fafafa;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center; gap: 1.2rem;
+      transition: opacity 0.6s ease, transform 0.6s cubic-bezier(0.4, 0, 0.2, 1), visibility 0.6s ease;
+      transform: scale(1);
+      overflow: hidden;
+    }
+    #splash.hide { opacity: 0; visibility: hidden; transform: scale(1.15); }
+
+    /* Floating particles */
+    .splash-particle {
+      position: absolute;
+      border-radius: 50%;
+      background: #2d6a4f;
+      opacity: 0;
+      animation: floatUp var(--dur) var(--delay) ease-in infinite;
+    }
+    @keyframes floatUp {
+      0%   { opacity: 0; transform: translateY(0) scale(1); }
+      15%  { opacity: var(--op); }
+      80%  { opacity: var(--op); }
+      100% { opacity: 0; transform: translateY(-100vh) scale(0.4); }
+    }
+    .splash-logo {
+      font-family: var(--serif); font-style: italic;
+      font-size: 4rem; color: var(--text);
+      opacity: 0; transform: translateY(12px);
+      animation: splashUp 0.7s 0.2s cubic-bezier(0.22,1,0.36,1) forwards;
+    }
+    .splash-logo em { color: var(--accent); }
+    .splash-line {
+      width: 0; height: 1px; background: var(--accent);
+      animation: splashLine 0.8s 0.6s ease forwards;
+    }
+    .splash-sub {
+      font-size: 0.68rem; letter-spacing: 0.22em; text-transform: uppercase;
+      color: var(--soft);
+      opacity: 0;
+      animation: splashUp 0.6s 0.9s ease forwards;
+    }
+    @keyframes splashUp {
+      to { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes splashLine {
+      to { width: 48px; }
+    }
+
+    /* ─── FOOTER ─── */
+    footer {
+      max-width:1040px; margin:0 auto;
+      padding:1.8rem 4rem;
+      display:flex; justify-content:space-between; align-items:center;
+    }
+    footer p { font-size:0.68rem; letter-spacing:0.06em; color:var(--soft); }
+
+    /* ─── REVEAL & TRANSITIONS ─── */
+    .reveal {
+      opacity: 0;
+      transform: translateY(28px);
+      transition: opacity 0.85s cubic-bezier(0.22, 1, 0.36, 1),
+                  transform 0.85s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+    .reveal.in {
+      opacity: 1;
+      transform: none;
+    }
+
+    /* Staggered children inside reveal containers */
+    .reveal .tl-item,
+    .reveal .proj-item,
+    .reveal .clink {
+      opacity: 0;
+      transform: translateY(16px);
+      transition: opacity 0.6s cubic-bezier(0.22, 1, 0.36, 1),
+                  transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+    .reveal.in .tl-item,
+    .reveal.in .proj-item,
+    .reveal.in .clink {
+      opacity: 1;
+      transform: none;
+    }
+    .reveal.in .tl-item:nth-child(1)  { transition-delay: 0.05s; }
+    .reveal.in .tl-item:nth-child(2)  { transition-delay: 0.15s; }
+    .reveal.in .tl-item:nth-child(3)  { transition-delay: 0.25s; }
+    .reveal.in .tl-item:nth-child(4)  { transition-delay: 0.35s; }
+    .reveal.in .proj-item:nth-child(1) { transition-delay: 0.05s; }
+    .reveal.in .proj-item:nth-child(2) { transition-delay: 0.15s; }
+    .reveal.in .proj-item:nth-child(3) { transition-delay: 0.25s; }
+    .reveal.in .clink:nth-child(1)    { transition-delay: 0.05s; }
+    .reveal.in .clink:nth-child(2)    { transition-delay: 0.15s; }
+    .reveal.in .clink:nth-child(3)    { transition-delay: 0.25s; }
+
+    /* ─── KEYFRAMES ─── */
+    @keyframes fadeUp { from{opacity:0;transform:translateY(18px)} to{opacity:1;transform:none} }
+
+    /* ─── HAMBURGER MENU ─── */
+    .nav-hamburger {
+      display: none;
+      flex-direction: column; gap: 5px;
+      cursor: pointer; padding: 4px;
+      background: none; border: none;
+    }
+    .nav-hamburger span {
+      display: block; width: 22px; height: 1.5px;
+      background: var(--text); border-radius: 2px;
+      transition: all 0.3s ease;
+    }
+    .nav-hamburger.open span:nth-child(1) { transform: translateY(6.5px) rotate(45deg); }
+    .nav-hamburger.open span:nth-child(2) { opacity: 0; }
+    .nav-hamburger.open span:nth-child(3) { transform: translateY(-6.5px) rotate(-45deg); }
+
+    @media(max-width:600px){
+      .nav-hamburger { display: flex; }
+      .nav-links {
+        display: none;
+        position: fixed; top: var(--nav-h); left: 0; right: 0;
+        flex-direction: column; align-items: center; gap: 0;
+        background: rgba(246,244,240,0.98);
+        backdrop-filter: blur(12px);
+        border-bottom: 1px solid var(--border);
+        padding: 1rem 0;
+        z-index: 299;
+      }
+      .nav-links.open { display: flex; }
+      .nav-links li { width: 100%; text-align: center; }
+      .nav-links a { display: block; padding: 0.9rem 0; font-size: 0.72rem; }
+    }
+
+    /* Tablet (max 900px) */
+    @media(max-width:900px){
+      .ach-grid { grid-template-columns:1fr; gap:2rem; }
+      .about-layout { grid-template-columns: 1fr; gap: 2rem; }
+      .contact-layout { grid-template-columns: 1fr; gap: 2rem; }
+      .ach-card { min-width: 300px; max-width: 300px; }
+      
+    }
+
+    /* Mobile (max 768px) */
+    @media(max-width:768px){
+      /* Nav */
+      nav { padding: 0 1.5rem; }
+      .nav-links { gap: 1rem; }
+      .nav-links a { font-size: 0.65rem; letter-spacing: 0.06em; }
+
+      /* Hero */
+      #hero { padding: 0 1.5rem; }
+      .h-name { font-size: clamp(2.4rem, 10vw, 3.5rem); margin-bottom: 1.2rem; }
+      .h-sub { font-size: 0.92rem; margin-bottom: 1.8rem; }
+      .ticker-wrap { bottom: 0; }
+
+      /* Sections */
+      .page { padding: calc(var(--nav-h) + 0.8rem) 1.5rem 1.25rem; }
+      .page-inner { width: 100%; }
+
+      /* About */
+      .about-layout { grid-template-columns: 1fr; gap: 1.8rem; }
+      .slider { max-width: 100%; height: 280px; }
+      .bio p { width: 100%; font-size: 0.92rem; }
+
+      /* Timeline */
+      .tl { padding-left: 2rem; }
+      .tl-dot.logo { width: 28px; height: 28px; left: -1.6rem; }
+      .tl-title { font-size: 0.92rem; }
+      .tl-place { font-size: 0.76rem; }
+
+      /* Publications */
+      .proj-item { grid-template-columns: 2.2rem 1fr; gap: 1rem; padding: 1.2rem 0; }
+      .proj-body h3 { font-size: 0.95rem; }
+      .proj-body p { font-size: 0.82rem; }
+
+      /* Legacies */
+      .ach-scroll-container { padding: 0 36px; }
+      .ach-card { min-width: 260px; max-width: 260px; }
+      
+      .ach-arrow { width: 32px; height: 32px; font-size: 0.9rem; }
+      .legacy-filters { gap: 0.4rem; }
+      .filter-btn { font-size: 0.65rem; padding: 0.35rem 0.75rem; }
+
+      /* Contact */
+      .clinks { grid-template-columns: 1fr; }
+      .contact-intro h3 { font-size: 1.4rem; }
+
+      /* Footer */
+      footer { flex-direction:column; gap:0.4rem; text-align:center; padding:1.8rem 1.5rem; }
+
+      /* Modal */
+      .ach-modal { padding: 1rem; }
+      .ach-modal-body { padding: 1.2rem 1.5rem; }
+      .ach-modal-img { height: 200px; }
+      .ach-modal-title { font-size: 1.2rem; }
+    }
+
+    /* Small mobile (max 480px) */
+    @media(max-width:480px){
+      .nav-links { gap: 0.7rem; }
+      .nav-links a { font-size: 0.6rem; }
+      .h-name { font-size: clamp(2rem, 11vw, 2.8rem); }
+      .h-eyebrow { font-size: 0.62rem; }
+      .h-sub { font-size: 0.88rem; }
+      .sec-t { font-size: 1.4rem; }
+      .ach-card { min-width: 230px; max-width: 230px; }
+      
+      .ach-card-content { padding: 0.9rem 1rem; }
+      .ach-title { font-size: 0.88rem; }
+      .ach-scroll-container { padding: 0 30px; }
+      .ticker-item span { font-size: 0.62rem; }
+      .ticker-item { gap: 1.2rem; padding: 0 1.2rem; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ═══ SPLASH SCREEN ═══ -->
+<div id="splash">
+  <!-- Floating particles -->
+  <div class="splash-particle" style="width:6px;height:6px;left:8%;bottom:5%;--dur:3.2s;--delay:0.0s;--op:0.35"></div>
+  <div class="splash-particle" style="width:4px;height:4px;left:15%;bottom:10%;--dur:2.8s;--delay:0.4s;--op:0.25"></div>
+  <div class="splash-particle" style="width:8px;height:8px;left:22%;bottom:3%;--dur:3.6s;--delay:0.2s;--op:0.2"></div>
+  <div class="splash-particle" style="width:5px;height:5px;left:30%;bottom:8%;--dur:2.5s;--delay:0.7s;--op:0.3"></div>
+  <div class="splash-particle" style="width:3px;height:3px;left:38%;bottom:2%;--dur:3.0s;--delay:0.1s;--op:0.4"></div>
+  <div class="splash-particle" style="width:7px;height:7px;left:45%;bottom:12%;--dur:3.4s;--delay:0.5s;--op:0.2"></div>
+  <div class="splash-particle" style="width:4px;height:4px;left:52%;bottom:6%;--dur:2.7s;--delay:0.3s;--op:0.35"></div>
+  <div class="splash-particle" style="width:6px;height:6px;left:60%;bottom:4%;--dur:3.1s;--delay:0.8s;--op:0.25"></div>
+  <div class="splash-particle" style="width:5px;height:5px;left:68%;bottom:9%;--dur:2.9s;--delay:0.2s;--op:0.3"></div>
+  <div class="splash-particle" style="width:8px;height:8px;left:75%;bottom:2%;--dur:3.5s;--delay:0.6s;--op:0.2"></div>
+  <div class="splash-particle" style="width:3px;height:3px;left:82%;bottom:7%;--dur:2.6s;--delay:0.4s;--op:0.4"></div>
+  <div class="splash-particle" style="width:5px;height:5px;left:90%;bottom:5%;--dur:3.3s;--delay:0.1s;--op:0.28"></div>
+  <div class="splash-particle" style="width:4px;height:4px;left:12%;bottom:20%;--dur:4.0s;--delay:0.9s;--op:0.18"></div>
+  <div class="splash-particle" style="width:6px;height:6px;left:55%;bottom:18%;--dur:3.8s;--delay:0.3s;--op:0.15"></div>
+  <div class="splash-particle" style="width:3px;height:3px;left:78%;bottom:22%;--dur:4.2s;--delay:0.7s;--op:0.2"></div>
+  <div class="splash-particle" style="width:5px;height:5px;left:35%;bottom:15%;--dur:3.7s;--delay:1.1s;--op:0.22"></div>
+  <div class="splash-particle" style="width:4px;height:4px;left:65%;bottom:25%;--dur:4.5s;--delay:0.5s;--op:0.15"></div>
+  <div class="splash-particle" style="width:7px;height:7px;left:5%;bottom:30%;--dur:5.0s;--delay:0.2s;--op:0.12"></div>
+  <div class="splash-particle" style="width:3px;height:3px;left:92%;bottom:15%;--dur:3.9s;--delay:1.3s;--op:0.2"></div>
+  <div class="splash-particle" style="width:6px;height:6px;left:48%;bottom:35%;--dur:4.8s;--delay:0.6s;--op:0.1"></div>
+  <div class="splash-particle" style="width:5px;height:5px;left:3%;bottom:12%;--dur:3.3s;--delay:1.0s;--op:0.3"></div>
+  <div class="splash-particle" style="width:4px;height:4px;left:18%;bottom:28%;--dur:4.1s;--delay:0.8s;--op:0.18"></div>
+  <div class="splash-particle" style="width:7px;height:7px;left:27%;bottom:6%;--dur:2.9s;--delay:1.4s;--op:0.25"></div>
+  <div class="splash-particle" style="width:3px;height:3px;left:42%;bottom:22%;--dur:4.6s;--delay:0.3s;--op:0.15"></div>
+  <div class="splash-particle" style="width:6px;height:6px;left:50%;bottom:40%;--dur:5.2s;--delay:0.9s;--op:0.1"></div>
+  <div class="splash-particle" style="width:4px;height:4px;left:58%;bottom:14%;--dur:3.6s;--delay:1.2s;--op:0.22"></div>
+  <div class="splash-particle" style="width:8px;height:8px;left:70%;bottom:30%;--dur:4.4s;--delay:0.4s;--op:0.12"></div>
+  <div class="splash-particle" style="width:3px;height:3px;left:85%;bottom:18%;--dur:3.2s;--delay:1.5s;--op:0.3"></div>
+  <div class="splash-particle" style="width:5px;height:5px;left:95%;bottom:8%;--dur:2.8s;--delay:0.6s;--op:0.28"></div>
+  <div class="splash-particle" style="width:4px;height:4px;left:25%;bottom:35%;--dur:4.9s;--delay:1.0s;--op:0.12"></div>
+  <div class="splash-particle" style="width:6px;height:6px;left:10%;bottom:45%;--dur:5.5s;--delay:0.3s;--op:0.1"></div>
+  <div class="splash-particle" style="width:3px;height:3px;left:33%;bottom:42%;--dur:5.1s;--delay:1.6s;--op:0.12"></div>
+  <div class="splash-particle" style="width:5px;height:5px;left:72%;bottom:38%;--dur:4.7s;--delay:0.7s;--op:0.1"></div>
+  <div class="splash-particle" style="width:7px;height:7px;left:88%;bottom:28%;--dur:4.3s;--delay:1.1s;--op:0.15"></div>
+  <div class="splash-particle" style="width:4px;height:4px;left:43%;bottom:48%;--dur:5.8s;--delay:0.5s;--op:0.08"></div>
+  <div class="splash-particle" style="width:3px;height:3px;left:62%;bottom:44%;--dur:5.4s;--delay:1.4s;--op:0.1"></div>
+  <div class="splash-particle" style="width:6px;height:6px;left:20%;bottom:50%;--dur:6.0s;--delay:0.8s;--op:0.08"></div>
+  <div class="splash-particle" style="width:4px;height:4px;left:80%;bottom:42%;--dur:5.6s;--delay:1.2s;--op:0.1"></div>
+  <div class="splash-particle" style="width:5px;height:5px;left:97%;bottom:35%;--dur:4.0s;--delay:1.7s;--op:0.15"></div>
+  <div class="splash-particle" style="width:3px;height:3px;left:2%;bottom:40%;--dur:5.3s;--delay:0.4s;--op:0.12"></div>
+
+  <div class="splash-logo"><em>Juin Xian</em></div>
+  <div class="splash-line"></div>
+  <p class="splash-sub">Penang, Malaysia</p>
+</div>
+
+<!-- ═══ NAV ═══ -->
+<nav id="nav">
+  <a href="#hero" class="nav-logo">JX</a>
+  <button class="nav-hamburger" id="hamburger" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
+  <ul class="nav-links" id="navLinks">
+    <li><a href="#about">About</a></li>
+    <li><a href="#publications">Publications</a></li>
+    <li><a href="#legacies">Legacies</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</nav>
+
+<!-- ═══ PAGE 0 · HERO ═══ -->
+<section id="hero">
+  <div class="hero-inner">
+    <p class="h-eyebrow">Renewable Energy &amp; Policy Governance</p>
+    <h1 class="h-name">Juin Xian <em>Loh</em></h1>
+    <p class="h-sub">
+      Driving the next generation of renewable energy in transportation through advanced biofuel innovation and strategic policy leadership.
+    </p>
+  </div>
+  <!-- Skills ticker -->
+  <div class="ticker-wrap">
+    <div class="ticker-track">
+      <!-- First set -->
+      <div class="ticker-item"><span>Sustainable Aviation Fuel</span><div class="ticker-dot"></div></div>
+      <div class="ticker-item"><span>Catalysis</span><div class="ticker-dot"></div></div>
+      <div class="ticker-item"><span>Energy</span><div class="ticker-dot"></div></div>
+      <div class="ticker-item"><span>Energy Policy</span><div class="ticker-dot"></div></div>
+      <div class="ticker-item"><span>Biofuel Innovation</span><div class="ticker-dot"></div></div>
+      <div class="ticker-item"><span>Chemical Engineering</span><div class="ticker-dot"></div></div>
+      <div class="ticker-item"><span>Technology Governance</span><div class="ticker-dot"></div></div>
+      <div class="ticker-item"><span>Research &amp; Publication</span><div class="ticker-dot"></div></div>
+      <div class="ticker-item"><span>Stakeholder Engagement</span><div class="ticker-dot"></div></div>
+      <div class="ticker-item"><span>Consulting</span><div class="ticker-dot"></div></div>
+      <div class="ticker-item"><span>Data Analysis</span><div class="ticker-dot"></div></div>
+      <div class="ticker-item"><span>Science Communication</span><div class="ticker-dot"></div></div>
+      <!-- Duplicate for seamless loop -->
+      <div class="ticker-item"><span>Sustainable Aviation Fuel</span><div class="ticker-dot"></div></div>
+      <div class="ticker-item"><span>Catalysis</span><div class="ticker-dot"></div></div>
+      <div class="ticker-item"><span>Energy</span><div class="ticker-dot"></div></div>
+      <div class="ticker-item"><span>Energy Policy</span><div class="ticker-dot"></div></div>
+      <div class="ticker-item"><span>Biofuel Innovation</span><div class="ticker-dot"></div></div>
+      <div class="ticker-item"><span>Chemical Engineering</span><div class="ticker-dot"></div></div>
+      <div class="ticker-item"><span>Technology Governance</span><div class="ticker-dot"></div></div>
+      <div class="ticker-item"><span>Research &amp; Publication</span><div class="ticker-dot"></div></div>
+      <div class="ticker-item"><span>Stakeholder Engagement</span><div class="ticker-dot"></div></div>
+      <div class="ticker-item"><span>Consulting</span><div class="ticker-dot"></div></div>
+      <div class="ticker-item"><span>Data Analysis</span><div class="ticker-dot"></div></div>
+      <div class="ticker-item"><span>Science Communication</span><div class="ticker-dot"></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ PAGE 1 · ABOUT ═══ -->
+<section class="page" id="about">
+  <div class="page-inner reveal">
+    <div class="sec-hd">
+      <span class="sec-n">01</span>
+      <h2 class="sec-t">About Me</h2>
+      <span class="sec-icon">✦</span>
+    </div>
+
+    <div class="about-layout">
+
+      <!-- LEFT: IMAGE SLIDER -->
+      <div class="slider">
+        <div class="slides">
+          <img src="images/photo1.jpg" alt="photo1">
+          <img src="images/photo2.jpg" alt="photo2">
+          <img src="images/photo3.jpg" alt="photo3">
+        </div>
+      </div>   
+
+      <!-- Right: bio -->
+      <div>
+        <div class="bio">
+          <p>Well I told myself if 1 day I lost my memory, this will be the place I return and try to regain all my thoughts and memories from it.</p>
+          <p>My work is in low emission fuel, with a focus on producing biofuels for the transport sectors. 
+            What keeps me interested isn't just the product itself, but everything behind it: 
+            how a barrel of fuel is <strong>produced</strong> in refineries, <strong>traded</strong> across oceans, <strong>priced</strong> by markets, and <strong>burned</strong> to move a plane, a ship, or a truck.
+            It is a commodity that can moves across the world to power a nation, and ultimately, to keep human civilization advancing. 
+          </p>
+          <p>I play badminton, gym, hike and cycle to keep myself sane, and play Dota2 from mental deterioration. And when the opportunity comes up, I perform with an orchestra as a flutist. I'm also an Formula 1 fan.</p>
+        </div>
+      </div>
+
+      <!--LEFT: EDUCATION TIMELINE -->
+      <div>
+        <p class="sub-hd">EDUCATION</p>
+        <div class="tl">
+          <div class="tl-item">
+            <div class="tl-dot logo"><img src="images/NTU Logo.png" alt="NTU"></div>
+            <p class="tl-year">2026 - Present</p>
+            <h3 class="tl-title">Ph.D. in Chemical Engineering</h3>
+            <p class="tl-place">Nanyang Technological University, Singapore</p>
+            <p class="tl-desc">Nanyang President Graduate Scholar @ ExxonMobil Corporate Lab</p>
+          </div>
+          <div class="tl-item">
+            <div class="tl-dot logo"><img src="images/NTU Logo.png" alt="NTU"></div>
+            <p class="tl-year">2021 - 2025</p>
+            <h3 class="tl-title">BSc. in Chemistry (Honours)</h3>
+            <p class="tl-place">Nanyang Technological University, Singapore</p>
+            <p class="tl-desc">ASEAN Scholar, NTU President Research Scholar</p>
+          </div>
+          <div class="tl-item">
+            <div class="tl-dot logo"><img src="images/CLHS Logo.png" alt="Chung Ling"></div>
+            <p class="tl-year">2014 - 2021</p>
+            <h3 class="tl-title">STPM, SPM</h3>
+            <p class="tl-place">Chung Ling High School, Penang</p>
+            <p class="tl-desc">Spent the best time of my life and met great people there!</p>
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <!--RIGHT: WORK EXPERIENCE -->
+        <p class="sub-hd">Work Experience</p>
+        <div class="tl">
+          <div class="tl-item">
+            <div class="tl-dot"></div>
+            <p class="tl-year">Aug 2026 - Present</p>
+            <h3 class="tl-title">Ph.D. Candidate</h3>
+            <p class="tl-place">ExxonMobil Corporate Lab, NTU</p>
+          </div>
+          <div class="tl-item">
+            <div class="tl-dot"></div>
+            <p class="tl-year">Jul 2026 - Present</p>
+            <h3 class="tl-title">Associate, Technology Policy &amp; Governance</h3>
+            <p class="tl-place">Asia Sustainable Aviation Fuel Association</p>
+            <p class="tl-desc">Translating SAF technology into governance frameworks to accelerate SAF adoption and integration across Asia.</p>
+          </div>
+          <div class="tl-item">
+            <div class="tl-dot"></div>
+            <p class="tl-year">Feb 2025 - May 2025</p>
+            <h3 class="tl-title">Operations Analyst</h3>
+            <p class="tl-place">Oil Brokerage</p>
+            <p class="tl-desc">Supported trading operations and compliance activities.</p>
+          </div>
+          <div class="tl-item">
+            <div class="tl-dot"></div>
+            <p class="tl-year">Feb 2024 - May 2024</p>
+            <h3 class="tl-title">Biofuel Operations</h3>
+            <p class="tl-place">Green COP</p>
+            <p class="tl-desc">New feedstock introduction for sustainable marine fuel production.</p>
+          </div>
+        </div>
+      </div>
+         
+     
+</section>
+
+<!-- ═══ PAGE 2 · PUBLICATIONS ═══ -->
+<section class="page" id="publications">
+  <div class="page-inner reveal">
+    <div class="sec-hd">
+      <span class="sec-n">02</span>
+      <h2 class="sec-t">Publications</h2>
+      <span class="sec-icon">📄</span>
+    </div>
+
+    <div class="proj-list">
+      <a class="proj-item" href="#">
+        <span class="proj-num">2025</span>
+        <div class="proj-body">
+          <h3>Catalytic Conversion of 2G Biomass into Low-Emission Fuel</h3>
+          <p>Catalyst design and process optimization of C6 sugars into alcohol-to-jet fuel.</p>
+          <div class="proj-chips"><span class="chip">Catalysis</span><span class="chip">Fuel</span><span class="chip">Biomass</span></div>
+        </div>
+      </a>
+      <a class="proj-item" href="#">
+        <span class="proj-num">2024</span>
+        <div class="proj-body">
+          <h3>IEA Global Greenhouse Gas Emission Review</h3>
+          <p>Comparative greenhouse gas lifecycle analysis across different countries and regions.</p>
+          <div class="proj-chips"><span class="chip">GhG</span><span class="chip">Emissions Analysis</span><span class="chip">Policy Brief</span></div>
+        </div>
+      </a>
+      <a class="proj-item" href="#">
+        <span class="proj-num">2024</span>
+        <div class="proj-body">
+          <h3>Oil and Gas Market Analysis</h3>
+          <p>Analysis of market trends, supply chain dynamics, and policy impacts in the oil and gas sector.</p>
+          <div class="proj-chips"><span class="chip">Market Analysis</span><span class="chip">Supply Chain</span><span class="chip">Pricing</span></div>
+        </div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ PAGE 3 · LEGACIES ═══ -->
+<section class="page" id="legacies">
+  <div class="page-inner reveal">
+    <div class="sec-hd">
+      <span class="sec-n">03</span>
+      <h2 class="sec-t">Legacies</h2>
+      <div class="legacy-filters">
+        <button class="filter-btn active" data-filter="academic">Academic</button>
+        <button class="filter-btn" data-filter="sports">Sports</button>
+        <button class="filter-btn" data-filter="music">Music</button>
+      </div>
+    </div>
+
+    <!-- Academic -->
+    <div class="legacy-category" data-category="academic">
+      <div class="ach-scroll-container">
+        <button class="ach-arrow left" onclick="scrollAch(this,-1)">&#8592;</button>
+        <div class="ach-scroll">
+          <div class="ach-card" data-achievement="academic-12" data-description="This award is given to outstanding CCEB graduates for noteworthy academic achievements, outstanding leadership, and exceptional service to the student community.">
+            <div class="ach-card-img-wrap"><img src="images/grad2025.jpg" alt="Award" class="ach-card-img"></div>
+            <div class="ach-card-content">
+              <p class="ach-year">2025</p>
+              <p class="ach-title">CCEB Outstanding Graduate Award</p>
+              <p class="ach-preview">Issued by the School of Chemistry, Chemical Engineering and Biotechnology (CCEB)</p>
+            </div>
+          </div>
+          <div class="ach-card" data-achievement="academic-11" data-description="2nd Runner-up">
+            <div class="ach-card-img-wrap"><img src="images/cfa.jpg" alt="Award" class="ach-card-img"></div>
+            <div class="ach-card-content">
+              <p class="ach-year">2024</p>
+              <p class="ach-title">CFA University Ethics Challenge 2024</p>
+              <p class="ach-preview">Issued by CFA Institute Singapore.</p>
+            </div>
+          </div>
+          <div class="ach-card" data-achievement="academic-10" data-description="Prime editing optimization and expression in stem cells, bacteria and yeast">
+            <div class="ach-card-img-wrap"><img src="images/igem.png" alt="Award" class="ach-card-img"></div>
+            <div class="ach-card-content">
+              <p class="ach-year">2023</p>
+              <p class="ach-title">iGEM Grand Jamboree 2023</p>
+              <p class="ach-preview">Silver Award</p>
+            </div>
+          </div>
+          <div class="ach-card" data-achievement="academic-9" data-description="Only 25 people among the exchanged students (BSc, MSc, PhD) were selected for their academic excellence in the summer programme.">
+            <div class="ach-card-img-wrap"><img src="images/sysu.JPG" alt="Award" class="ach-card-img"></div>
+            <div class="ach-card-content">
+              <p class="ach-year">2023</p>
+              <p class="ach-title">SYSU-PKU Outstanding Student Award 2023</p>
+              <p class="ach-preview">SYSU-PKU International Summer School of Chemistry Exchange 2023</p>
+            </div>
+          </div>
+          <div class="ach-card" data-achievement="academic-8" data-description="Supervisor: Prof. Ling Xing Yi">
+            <div class="ach-card-img-wrap"><img src="images/ureca.jpg" alt="Award" class="ach-card-img"></div>
+            <div class="ach-card-content">
+              <p class="ach-year">2023</p>
+              <p class="ach-title">NTU President Research Scholar Award</p>
+              <p class="ach-preview">Successful completion of Undergraduate Research Experience on CAmpus (URECA)</p>
+            </div>
+          </div>
+          <div class="ach-card" data-achievement="academic-7" data-description="Being the only top 19 winners globally who got selected for the Launch Prize where we 
+          are able to send our experiment to the International Space Station (ISS) and win a prize worth $75,000">
+            <div class="ach-card-img-wrap"><img src="images/aws.png" alt="Award" class="ach-card-img"></div>
+            <div class="ach-card-content">
+              <p class="ach-year">2022</p>
+              <p class="ach-title">AWS Space Questions Challenge</p>
+              <p class="ach-preview">Issued by International Space School Educational Trust (ISSET)</p>
+            </div>
+          </div>
+          <div class="ach-card" data-achievement="academic-6" data-description="">
+            <div class="ach-card-img-wrap"><img src="images/stpm.jpg" alt="Award" class="ach-card-img"></div>
+            <div class="ach-card-content">
+              <p class="ach-year">2021</p>
+              <p class="ach-title">Penang Excellent STPM Achiever Award</p>
+              <p class="ach-preview">Endorsed by the Chief Minister of Penang and the Penang State Government.</p>
+            </div>
+          </div>
+          <div class="ach-card" data-achievement="academic-5" data-description="Mars-Water Extraction and Transportation (WET)">
+            <div class="ach-card-img-wrap"><img src="images/xylem.jpeg" alt="Award" class="ach-card-img"></div>
+            <div class="ach-card-content">
+              <p class="ach-year">2021</p>
+              <p class="ach-title">Xylem Global Innovation Student Challenge 2021</p>
+              <p class="ach-preview">1st Runner-up in the University Category</p>
+            </div>
+          </div>
+          <div class="ach-card" data-achievement="academic-4" data-description="
+                Malaysia National Chemistry Quiz (Advanced Level): High Distinction |
+                Penang International Science Fair (Agritech for All): Bronze Award, Research Excellence |
+                Malaysia Astronomy Olympiad: Bronze Award |
+                Kangaroo Math Malaysia: Honorable Mention">
+            <div class="ach-card-img-wrap"><img src="images/CLHS Logo.png" alt="Award" class="ach-card-img"></div>
+            <div class="ach-card-content">
+              <p class="ach-year">2018-2021</p>
+              <p class="ach-title">Science Awards</p>
+              <p class="ach-preview">A series of awards received in high school</p>
+            </div>
+          </div>
+          <div class="ach-card" data-achievement="academic-3" data-description="A bittersweet end to the WSC 2017: An Unlikely World. An experience that changed my life forever.">  
+            <div class="ach-card-img-wrap"><img src="images/toc.jpg" alt="Award" class="ach-card-img"></div>
+            <div class="ach-card-content">
+              <p class="ach-year">2017</p>
+              <p class="ach-title">World Scholar's Cup (Tournament of Champions)</p>
+              <p class="ach-preview">Yale University, Connecticut, USA</p>
+            </div>
+          </div>
+          <div class="ach-card" data-achievement="academic-2" data-description="
+          79th Place - Scholar's Bowl, 97th Place - Challenge Social Studies,
+          Champion Teams, Top Debate Team, Top 25% in Challenge Arts, Top 50% in Top Challenge Teams">
+            <div class="ach-card-img-wrap"><img src="images/wschanoi.jpg" alt="Award" class="ach-card-img"></div>
+            <div class="ach-card-content">
+              <p class="ach-year">2017</p>
+              <p class="ach-title">World Scholar's Cup (Hanoi Global Round)</p>
+              <p class="ach-preview">An eye-opening experience that broadened my perspective on global issues.</p>
+            </div>
+          </div>
+          <div class="ach-card" data-achievement="academic-1" data-description="
+          Champion Teams, Top Writing Teams, Top Debate Teams, Writing Champions, Scholar's Bowl, Global Round Qualifier
+          Top 20% in Challenge Arts, Top 30% in Challenge Literature, Top 35% in Challenge Science, Top 45% in Challenge All Subjects, Top 35% in Top Challenge Teams">
+            <div class="ach-card-img-wrap"><img src="images/wscpg.jpg" alt="Award" class="ach-card-img"></div>
+            <div class="ach-card-content">
+              <p class="ach-year">2017</p>
+              <p class="ach-title">World Scholar's Cup (Penang Regional Round)</p>
+              <p class="ach-preview">The turning point of my academic journey</p>
+            </div>
+          </div>                    
+        </div>
+        <button class="ach-arrow right" onclick="scrollAch(this,1)">&#8594;</button>
+      </div>
+    </div>
+
+    <!-- Sports -->
+    <div class="legacy-category hidden" data-category="sports">
+      <div class="ach-scroll-container">
+        <button class="ach-arrow left" onclick="scrollAch(this,-1)">&#8592;</button>
+        <div class="ach-scroll">
+          <div class="ach-card" data-achievement="sports-4" data-description="">
+            <div class="ach-card-img-wrap"><img src="images/sector1.JPG" alt="f1" class="ach-card-img"></div>
+            <div class="ach-card-content">
+              <p class="ach-year">2025</p>
+              <p class="ach-title">Formula 1 Singapore Grand Prix</p>
+              <p class="ach-preview">Sector 1 - Fire Marshal</p>
+            </div>
+          </div>
+          <div class="ach-card" data-achievement="sports-3" data-description="">
+            <div class="ach-card-img-wrap"><img src="images/gfbadminton.jpg" alt="badminton" class="ach-card-img"></div>
+            <div class="ach-card-content">
+              <p class="ach-year">2025</p>
+              <p class="ach-title">GlobalFoundries Badminton Tournament</p>
+              <p class="ach-preview">Men's Singles - 2nd Place | Men's Doubles - 3rd Place</p>
+            </div>
+          </div>
+          <div class="ach-card" data-achievement="sports-2" data-description="">
+            <div class="ach-card-img-wrap"><img src="images/sector5.JPG" alt="f1" class="ach-card-img"></div>
+            <div class="ach-card-content">
+              <p class="ach-year">2024</p>
+              <p class="ach-title">Formula 1 Singapore Grand Prix</p>
+              <p class="ach-preview">Sector 5 - Fire Marshal</p>
+            </div>
+          </div>
+          <div class="ach-card" data-achievement="sports-1" data-description="2022, 2023 (Captain), 2025 - Men's Double">
+            <div class="ach-card-img-wrap"><img src="images/ntubadminton.png" alt="badminton" class="ach-card-img"></div>
+            <div class="ach-card-content">
+              <p class="ach-year">2022-2025</p>
+              <p class="ach-title">NTU Inter-School Game (Badminton)</p>
+              <p class="ach-preview">Just to have fun and represent my school.</p>
+            </div>
+          </div>
+        </div>
+        <button class="ach-arrow right" onclick="scrollAch(this,1)">&#8594;</button>
+      </div>
+    </div>
+
+    <!-- Music -->
+    <div class="legacy-category hidden" data-category="music">
+      <div class="ach-scroll-container">
+        <button class="ach-arrow left" onclick="scrollAch(this,-1)">&#8592;</button>
+        <div class="ach-scroll">
+          <div class="ach-card" data-achievement="music-1" data-description="Blue Horizon, Tears of Princess Joruri, Four Scottish Dances, Arabesque and Tchaikovsky Finale No.4">
+            <div class="ach-card-img-wrap"><img src="images/sojourn.JPG" alt="Grade Exam" class="ach-card-img"></div>
+            <div class="ach-card-content">
+              <p class="ach-year">2025</p>
+              <p class="ach-title">NTU Sojourn </p>
+              <p class="ach-preview">Performed some epic musics in my final year as an undergraduate.</p>
+            </div>
+          </div>
+          <div class="ach-card" data-achievement="music-2" data-description="March Blue Sky, Birds in the Azure Sky, Archangle Raphael and the Returns to the House of Tobias, Red Hill, Second Suite for Band, El Cumbanchero  ">
+            <div class="ach-card-img-wrap"><img src="images/wanderlust.JPG" alt="Performance" class="ach-card-img"></div>
+            <div class="ach-card-content">
+              <p class="ach-year">2024</p>
+              <p class="ach-title">NTU Wanderlust</p>
+              <p class="ach-preview">Returning to NTUSB after 3 years away.</p>
+            </div>
+          </div>
+          <div class="ach-card" data-achievement="music-3" data-description="Gold Award">
+            <div class="ach-card-img-wrap"><img src="images/TAIWAN.JPG" alt="Competition" class="ach-card-img"></div>
+            <div class="ach-card-content">
+              <p class="ach-year">2018</p>
+              <p class="ach-title">Taiwan International Wind Band Competition</p>
+              <p class="ach-preview">The Final Showdown for CLWO O1's.</p>
+            </div>
+          </div>
+          <div class="ach-card" data-achievement="music-4" data-description="
+                2015 - Gold with Honor |
+                2016 - Gold |
+                2017 - Gold |
+                2018 - Gold |
+                2019 - Gold">
+            <div class="ach-card-img-wrap"><img src="images/PROART.JPG" alt="Competition" class="ach-card-img"></div>
+            <div class="ach-card-content">
+              <p class="ach-year">2015-2019</p>
+              <p class="ach-title">Festival Kesenian Muzik Sekolah-Sekolah Menengah Peringkat Kebangsaan (Wind Orchestra Div.1)</p>
+              <p class="ach-preview">A longstanding unbeatable wind orchestra in national band performance competitions.</p>
+            </div>
+          </div>
+          <div class="ach-card" data-achievement="music-3" data-description="
+          2014 - Gold with Top Scorer | 
+          2015 - Gold |
+          2016 - Gold with Honor |
+          2017 - Gold |
+          2019 - Gold with Honor">
+            <div class="ach-card-img-wrap"><img src="images/MIMAF.JPG" alt="Competition" class="ach-card-img"></div>
+            <div class="ach-card-content">
+              <p class="ach-year">2014-2019</p>
+              <p class="ach-title">Malaysia International Music Art Festival (Wind Orchestra Div.1)</p>
+              <p class="ach-preview">A longstanding unbeatable wind orchestra in international band performance competitions.</p>
+            </div>
+          </div>
+        </div>
+        <button class="ach-arrow right" onclick="scrollAch(this,1)">&#8594;</button>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- Achievement Modal -->
+<div class="ach-modal" id="achModal">
+  <div class="ach-modal-content">
+    <button class="ach-modal-close" onclick="closeModal()">&#215;</button>
+    <img id="modalImg" src="" alt="" class="ach-modal-img">
+    <div class="ach-modal-body">
+      <p class="ach-modal-year" id="modalYear"></p>
+      <h3 class="ach-modal-title" id="modalTitle"></h3>
+      <p class="ach-modal-preview" id="modalPreview"></p>
+      <div class="ach-modal-divider"></div>
+      <p class="ach-modal-text" id="modalDescription"></p>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ PAGE 4 · CONTACT ═══ -->
+<section class="page" id="contact">
+  <div class="page-inner reveal">
+    <div class="sec-hd">
+      <span class="sec-n">04</span>
+      <h2 class="sec-t">Contact</h2>
+      <span class="sec-icon">✉</span>
+    </div>
+
+    <div class="contact-intro">
+      <span class="contact-label">Let's connect</span>
+      <h3>Got a question, collaboration, or just want to talk energy?</h3>
+      <p>I'm always happy to hear from researchers, policy makers, journalists, or anyone passionate about the energy transition in Asia. Reach out — I'll do my best to respond promptly.</p>
+    </div>
+
+    <div class="clinks">
+      <a href="mailto:lohjuinxian@gmail.com" class="clink">
+        <span class="clink-icon">✉</span>
+        <span class="clink-label">Email</span>
+        <span class="clink-handle">lohjuinxian@gmail.com</span>
+      </a>
+      <a href="https://linkedin.com/in/juinxianloh" class="clink" target="_blank">
+        <span class="clink-icon">in</span>
+        <span class="clink-label">LinkedIn</span>
+        <span class="clink-handle">juinxianloh</span>
+      </a>
+      <a href="https://github.com/juinxiantheofficial" class="clink" target="_blank">
+        <span class="clink-icon">⌥</span>
+        <span class="clink-label">GitHub</span>
+        <span class="clink-handle">juinxiantheofficial</span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <p>© 2026 JX. ALL RIGHTS RESERVED.</p>
+</footer>
+
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+  // sticky nav
+  const nav = document.getElementById('nav');
+  window.addEventListener('scroll', () => nav.classList.toggle('stuck', window.scrollY > 60));
+
+  // Page load splash — bulletproof with multiple fallbacks
+  function hideSplash() {
+    const splash = document.getElementById('splash');
+    if (splash && !splash.classList.contains('hide')) splash.classList.add('hide');
+  }
+  window.addEventListener('load', () => setTimeout(hideSplash, 2400));
+  document.addEventListener('DOMContentLoaded', () => setTimeout(hideSplash, 2400));
+  setTimeout(hideSplash, 3500);
+
+  // active nav link based on scroll position
+  const sections = ['hero','about','publications','legacies','contact'];
+  const links = {};
+  sections.forEach(id => {
+    const el = document.querySelector(`.nav-links a[href="#${id}"]`);
+    if (el) links[id] = el;
+  });
+  function updateActiveNav() {
+    let current = 'hero';
+    sections.forEach(id => {
+      const el = document.getElementById(id);
+      if (el) {
+        const rect = el.getBoundingClientRect();
+        if (rect.top <= 80) current = id;
+      }
+    });
+    Object.values(links).forEach(l => l.classList.remove('active'));
+    if (links[current]) links[current].classList.add('active');
+  }
+  window.addEventListener('scroll', updateActiveNav);
+  updateActiveNav();
+
+  // scroll reveal — smooth staggered transitions
+  const io = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('in');
+        io.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.08, rootMargin: '0px 0px -40px 0px' });
+  document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+
+  // image slider
+  const slides = document.querySelector(".slides");
+  const images = slides ? slides.querySelectorAll("img") : [];
+  let currentIndex = 0;
+  if (images.length) {
+    function showSlide(i) { slides.style.transform = `translateX(-${i * 100}%)`; }
+    setInterval(() => { currentIndex = (currentIndex + 1) % images.length; showSlide(currentIndex); }, 4000);
+  }
+
+  // Legacies — arrow scroll
+  function scrollAch(btn, dir) {
+    const scroll = btn.closest('.ach-scroll-container').querySelector('.ach-scroll');
+    scroll.scrollBy({ left: dir * 360, behavior: 'smooth' });
+  }
+
+  // Legacies — filter buttons
+  document.querySelectorAll('.filter-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      const filter = btn.getAttribute('data-filter');
+      document.querySelectorAll('.legacy-category').forEach(cat => {
+        cat.classList.toggle('hidden', cat.getAttribute('data-category') !== filter);
+      });
+    });
+  });
+
+  // Legacies — card click opens modal
+  function openModal(img, year, title, desc) {
+    document.getElementById('modalImg').src = img;
+    document.getElementById('modalYear').textContent = year;
+    document.getElementById('modalTitle').textContent = title;
+    document.getElementById('modalDescription').textContent = desc;
+    const modal = document.getElementById('achModal');
+    modal.classList.add('active');
+    requestAnimationFrame(() => requestAnimationFrame(() => modal.classList.add('visible')));
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeModal() {
+    const modal = document.getElementById('achModal');
+    modal.classList.remove('visible');
+    setTimeout(() => { modal.classList.remove('active'); document.body.style.overflow = ''; }, 300);
+  }
+
+  document.querySelectorAll('.ach-card').forEach(card => {
+    card.addEventListener('click', () => {
+      const img     = card.querySelector('.ach-card-img').src;
+      const year    = card.querySelector('.ach-year').textContent;
+      const title   = card.querySelector('.ach-title').textContent;
+      const preview = card.querySelector('.ach-preview').textContent;
+      const desc    = card.getAttribute('data-description') || '';
+      document.getElementById('modalPreview').textContent = preview;
+      openModal(img, year, title, desc);
+    });
+  });
+  document.getElementById('achModal').addEventListener('click', e => {
+    if (e.target === document.getElementById('achModal')) closeModal();
+  });
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
+
+  // Hamburger menu
+  const hamburger = document.getElementById('hamburger');
+  const navLinks  = document.getElementById('navLinks');
+  hamburger.addEventListener('click', () => {
+    hamburger.classList.toggle('open');
+    navLinks.classList.toggle('open');
+  });
+  navLinks.querySelectorAll('a').forEach(a => {
+    a.addEventListener('click', () => {
+      hamburger.classList.remove('open');
+      navLinks.classList.remove('open');
+    });
+  });
+</script>
+</body>
+</html>
